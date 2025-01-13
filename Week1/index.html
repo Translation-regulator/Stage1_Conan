@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stage1_Week1_Assignment</title>
+    <link rel="stylesheet" href="index.css"/>
+</head>
+
+<body>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const menuButton = document.querySelector(".menu");
+            const closeButton = document.querySelector(".close");
+            const asideMenu = document.querySelector(".aside-menu");
+
+            menuButton.addEventListener("click", function() {
+                asideMenu.classList.toggle("active");
+            });
+
+            closeButton.addEventListener("click", function() {
+                asideMenu.classList.remove("active");
+            });
+        });
+
+    </script>
+
+
+
+
+    <nav>
+        <!-- 左側導覽區 -->
+        <div class="left-nav">My Website</div>
+        <!-- 右側導覽區 -->
+        <div class="right-nav ">
+            <div>Item 1</div>
+            <div>Item 2</div>
+            <div>Item 3</div>
+            <div>Item 4</div>
+        </div>
+        <img class="menu" src="burger-menu.png" ></img>
+    </nav>
+
+    <div class="aside-menu">
+        <img class="close" src="close.png"/>
+        <div class="aside-item">Item 1</div>
+        <div class="aside-item">Item 2</div>
+        <div class="aside-item">Item 3</div>
+        <div class="aside-item">Item 4</div>
+    </div>
+
+    <!-- 主內容區 -->
+    <div class="title">
+        <div class="text">Welcome to MyHome</div>
+    </div>
+
+    <div class="image-content">
+            <div class="promotion">
+                <div class="pro-con-1" style="display: flex;">
+                    <img src="pui-pui.jpg" style="width: 80px; height: 50px;"></img>
+                    <div class="promotion-text middle-screen1">Promotion 1</div>
+                </div>
+                <div class="pro-con-2" style="display: flex;">
+                    <img src="pui-pui.jpg" style="width: 80px; height: 50px;"></img>
+                    <div class="promotion-text middle-screen2">Promotion 2</div>
+                </div>
+                <div class="pro-con-3" style="display: flex;">
+                    <img src="pui-pui.jpg" style="width: 80px; height: 50px;"></img>
+                    <div class="promotion-text middle-screen3">Promotion 3</div>
+                </div>
+            </div>
+
+                <div class="row-grid">
+                    <div class="card-big title1 ">
+                        <div class="image-container ">
+                            <img class="big-image"></img>
+
+                            <img class="star" src="star.png"></img>
+
+                            <div class="card-title">Title 1</div>
+                        </div>
+                    </div>
+
+                    <div class="card-small title2">
+                        <div class="image-container">
+                            <img class="small-image" ></img>
+                            <img class="star" src="star.png"></img>
+                        </div>
+                        <div class="card-title">Title 2</div>
+                    </div>
+
+                    <div class="card-small title3">
+                        <div class="image-container">
+                            <img class="small-image"></img>
+                            <img class="star" src="star.png"></img>
+                        </div>
+                        <div class="card-title">Title 3</div>
+                    </div>
+
+                    <div class="card-small title4">
+                        <div class="image-container">
+                            <img class="small-image"></img>
+                            <img class="star" src="star.png"></img>
+                        </div>
+                        <div class="card-title">Title 4</div>
+                    </div>
+
+                    <div class="card-small title5">
+                        <div class="image-container">
+                            <img class="small-image"></img>
+                            <img class="star" src="star.png"></img>
+                        </div>
+                        <div class="card-title">Title 5</div>
+                    </div>
+
+                    <div class="card-big title6">
+                        <div class="image-container">
+                            <img class="big-image"></img>
+                            <img class="star" src="star.png"></img>
+                        </div>
+                        <div class="card-title">Title 6</div>
+                    </div>
+
+                    <div class="card-small title7">
+                        <div class="image-container">
+                            <img class="small-image"></img>
+                            <img class="star" src="star.png"></img>
+                        </div>
+                        <div class="card-title">Title 7</div>
+                    </div>
+
+                    <div class="card-small title8">
+                        <div class="image-container">
+                            <img class="small-image"></img>
+                            <img class="star" src="star.png"></img>
+                        </div>
+                        <div class="card-title">Title 8</div>
+                    </div>
+
+                    <div class="card-small title9">
+                        <div class="image-container">
+                            <img class="small-image"></img>
+                            <img class="star" src="star.png"></img>
+                        </div>
+                        <div class="card-title">Title 9</div>
+                    </div>
+
+                    <div class="card-small title10">
+                        <div class="image-container">
+                            <img class="small-image"></img>
+                            <img class="star" src="star.png"></img>
+                        </div>
+                        <div class="card-title">Title 10</div>
+                    </div>
+                </div>
+
+    </div>
+
+
+
+</body>
+</html>
