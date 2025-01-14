@@ -142,26 +142,42 @@ print("--------------------------------------")
 def func(*data):
     middle_names = []
     
+    # 依據每個名字的長度來提取中間字符
+    for name in data:
+        length = len(name)
+        if length == 2:  # 兩個字名字取最後一個字
+            middle = name[1]
+        elif length == 4:  # 四個字名字取第 3 個字
+            middle = name[2]
+        elif length > 5:  # 超過五個字，取最接近中間的字
+            middle = name[(length - 1) // 2]  # 中間字（長度為奇數）或偏左中間字（長度為偶數）
+        else:  # 其他情況取第 2 個字
+            middle = name[1]
+        middle_names.append(middle)
+    
+    # 檢查每個名字的中間字符是否唯一
     for name in data:
         length = len(name)
         if length == 2:
             middle = name[1]
         elif length == 4:
             middle = name[2]
+        elif length > 5:
+            middle = name[(length - 1) // 2]
         else:
             middle = name[1]
-        middle_names.append(middle)
-    
-    for name in data:
-        if middle_names.count(name[1]) == 1:
+        if middle_names.count(middle) == 1:
             print(name)
             return
+    
     print("沒有")
+
 
 func("彭大牆", "陳王明雅", "吳明")  # print 彭大牆
 func("郭靜雅", "王立強", "郭林靜宜", "郭立恆", "林花花")  # print 林花花
 func("郭宣雅", "林靜宜", "郭宣恆", "林靜花")  # print 沒有
 func("郭宣雅", "夏曼藍波安", "郭宣恆")  # print 夏曼藍波安
+func("陳大明雅", "彭大牆", "吳明")  # 印print 彭大牆
 
 print("================================================")
 

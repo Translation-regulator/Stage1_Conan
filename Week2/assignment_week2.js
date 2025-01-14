@@ -159,25 +159,47 @@ console.log("Task3")
 console.log("------------------------------------------------------")
 
 function func(...data) {
-    let middleNames = [];
+    const middleNames = [];
 
-    for (let name of data) {
-        let length = name.length;
+    // 提取每個名字的中間字
+    for (const name of data) {
+        const length = name.length;
         let middle;
 
         if (length === 2) {
+            // 兩個字，取最後一個字
             middle = name[1];
         } else if (length === 4) {
+            // 四個字，取第 3 個字
             middle = name[2];
+        } else if (length > 5) {
+            // 超過五個字，取最接近中間的字
+            middle = name[Math.floor((length - 1) / 2)];
         } else {
+            // 其他情況，取第 2 個字
             middle = name[1];
         }
 
         middleNames.push(middle);
     }
 
-    for (let name of data) {
-        if (middleNames.filter(middle => middle === name[1]).length === 1) {
+    // 檢查每個名字的中間字是否唯一
+    for (const name of data) {
+        const length = name.length;
+        let middle;
+
+        if (length === 2) {
+            middle = name[1];
+        } else if (length === 4) {
+            middle = name[2];
+        } else if (length > 5) {
+            middle = name[Math.floor((length - 1) / 2)];
+        } else {
+            middle = name[1];
+        }
+
+        // 檢查中間字是否唯一
+        if (middleNames.filter(m => m === middle).length === 1) {
             console.log(name);
             return;
         }
@@ -186,10 +208,12 @@ function func(...data) {
     console.log("沒有");
 }
 
+
 func("彭大牆", "陳王明雅", "吳明");  // print 彭大牆
 func("郭靜雅", "王立強", "郭林靜宜", "郭立恆", "林花花");  // print 林花花
 func("郭宣雅", "林靜宜", "郭宣恆", "林靜花");  // print 沒有
 func("郭宣雅", "夏曼藍波安", "郭宣恆");  // print 夏曼藍波安
+func("陳大明雅", "彭大牆", "吳明"); // 印出 彭大牆
 
 console.log("=====================================================")
 console.log("Task4")
