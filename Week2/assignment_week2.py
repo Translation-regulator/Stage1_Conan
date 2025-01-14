@@ -1,48 +1,48 @@
 print("Task 1")
 print("-------------------------------------------")
 def find_and_print(messages, current_station):
-    # 定義路線圖為樹狀結構（使用鄰接表表示）
+    # 定義路線圖為雙向鄰接表
     metro_map = {
         "Songshan": ["Nanjing Sanmin"],
-        "Nanjing Sanmin": ["Taipei Arena"],
-        "Taipei Arena": ["Nanjing Fuxing"],
-        "Nanjing Fuxing": ["Zongshan"],
-        "Zongshan": ["Beimen"],
-        "Beimen": ["Ximen"],
-        "Ximen": ["Xiaonanmen"],
-        "Xiaonanmen": ["Chiang Kai-Shek Memorial Hail"],
-        "Chiang Kai-Shek Memorial Hail": ["Guting"],
-        "Guting": ["Taipower Building"],
-        "Taipower Building": ["Gongguan"],
-        "Gongguan": ["Wanlong"],
-        "Wanlong": ["Jingmei"],
-        "Jingmei": ["Dapinglin"],
-        "Dapinglin": ["Qizhang"],
-        "Qizhang": ["Xindian", "Xindian City Hall", "Xiaobitan"],  # Qizhang後分支
-        "Xiaobitan": [],
-        "Xindian City Hall": ["Xindian"],
-        "Xindian": [],
+        "Nanjing Sanmin": ["Songshan", "Taipei Arena"],
+        "Taipei Arena": ["Nanjing Sanmin", "Nanjing Fuxing"],
+        "Nanjing Fuxing": ["Taipei Arena", "Songjiang Nanjing"],
+        "Songjiang Nanjing": ["Nanjing Fuxing", "Zongshan"],
+        "Zongshan": ["Songjiang Nanjing", "Beimen"],
+        "Beimen": ["Zongshan", "Ximen"],
+        "Ximen": ["Beimen", "Xiaonanmen"],
+        "Xiaonanmen": ["Ximen", "Chiang Kai-Shek Memorial Hail"],
+        "Chiang Kai-Shek Memorial Hail": ["Xiaonanmen", "Guting"],
+        "Guting": ["Chiang Kai-Shek Memorial Hail", "Taipower Building"],
+        "Taipower Building": ["Guting", "Gongguan"],
+        "Gongguan": ["Taipower Building", "Wanlong"],
+        "Wanlong": ["Gongguan", "Jingmei"],
+        "Jingmei": ["Wanlong", "Dapinglin"],
+        "Dapinglin": ["Jingmei", "Qizhang"],
+        "Qizhang": ["Dapinglin", "Xindian City Hall", "Xiaobitan"],  # Qizhang後分支
+        "Xiaobitan": ["Qizhang"],
+        "Xindian City Hall": ["Qizhang", "Xindian"],
+        "Xindian": ["Xindian City Hall"],
     }
 
-    # 計算兩個車站的距離（手動實現 BFS）
+    # 計算兩個車站的距離（BFS 實現）
     def distance(station_a, station_b):
         if station_a not in metro_map or station_b not in metro_map:
             return float('inf')  # 車站無效，返回無窮大距離
 
-        # BFS 實現
-        visited = []  # 用於記錄已訪問的車站
-        queue = [[station_a, 0]]  # 用於模擬 BFS 隊列，包含 (車站, 距離)
+        visited = set()  # 用於記錄已訪問的車站
+        queue = [(station_a, 0)]  # 模擬 BFS 隊列，包含 (車站, 距離)
 
-        while len(queue) > 0:
-            current, dist = queue.pop(0)  # 模擬從隊列中取出元素
+        while queue:
+            current, dist = queue.pop(0)
             if current == station_b:
                 return dist  # 找到目標車站，返回距離
 
             if current not in visited:
-                visited.append(current)  # 標記為已訪問
-                for neighbor in metro_map[current]:  # 加入所有鄰近車站
+                visited.add(current)  # 標記為已訪問
+                for neighbor in metro_map[current]:
                     if neighbor not in visited:
-                        queue.append([neighbor, dist + 1])
+                        queue.append((neighbor, dist + 1))
 
         return float('inf')  # 如果無法到達，返回無窮大
 
@@ -75,6 +75,7 @@ def find_and_print(messages, current_station):
     else:
         print("未找到任何最近的朋友")
 
+
 # 測試資料
 messages = {
     "Leslie": "I'm at home near Xiaobitan station.",
@@ -85,15 +86,17 @@ messages = {
 }
 
 # 測試案例
-find_and_print(messages, "Wanlong")  # Mary
-find_and_print(messages, "Songshan")  # Copper
-find_and_print(messages, "Qizhang")  # Leslie
-find_and_print(messages, "Ximen")  #  Bob
-find_and_print(messages, "Xindian City Hall")  # Vivian
+find_and_print(messages, "Wanlong")  # 預期結果：Mary
+find_and_print(messages, "Songshan")  # 預期結果：Copper
+find_and_print(messages, "Qizhang")  # 預期結果：Leslie
+find_and_print(messages, "Ximen")  # 預期結果：Bob
+find_and_print(messages, "Xindian City Hall")  # 預期結果：Vivian
+find_and_print(messages, "Dapinglin")  # 預期結果：Mary
+
+
+
 
 print("=====================================================")
-
-
 print("Task2")
 print("------------------------------------------------")
 def book(consultants, hour, duration, criteria):
@@ -134,13 +137,10 @@ book(consultants, 11, 2, "rate")  # No Service
 book(consultants, 14, 3, "price")  # John
 
 print("=====================================================")
-
-
 print("Task3")
 print("--------------------------------------")
 def func(*data):
     middle_names = []
-    unique_names = []
     
     for name in data:
         length = len(name)
