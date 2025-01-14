@@ -11,109 +11,112 @@
 console.log("Task1")
 console.log("------------------------------------------------------")
 function findAndPrint(messages, currentStation) {
-    // 定義路線圖為樹狀結構（使用鄰接表表示）
-    const metroMap = {
-      Songshan: ["Nanjing Sanmin"],
-      "Nanjing Sanmin": ["Taipei Arena"],
-      "Taipei Arena": ["Nanjing Fuxing"],
-      "Nanjing Fuxing": ["Zongshan"],
-      Zongshan: ["Beimen"],
-      Beimen: ["Ximen"],
-      Ximen: ["Xiaonanmen"],
-      Xiaonanmen: ["Chiang Kai-Shek Memorial Hail"],
-      "Chiang Kai-Shek Memorial Hail": ["Guting"],
-      Guting: ["Taipower Building"],
-      "Taipower Building": ["Gongguan"],
-      Gongguan: ["Wanlong"],
-      Wanlong: ["Jingmei"],
-      Jingmei: ["Dapinglin"],
-      Dapinglin: ["Qizhang"],
-      Qizhang: ["Xindian", "Xindian City Hall", "Xiaobitan"], // Qizhang後分支
-      Xiaobitan: [],
-      "Xindian City Hall": ["Xindian"],
-      Xindian: [],
-    };
-  
-    // 計算兩個車站的距離（基於 BFS）
-    function distance(stationA, stationB) {
+  // 定義路線圖為雙向鄰接表
+  const metroMap = {
+      "Songshan": ["Nanjing Sanmin"],
+      "Nanjing Sanmin": ["Songshan", "Taipei Arena"],
+      "Taipei Arena": ["Nanjing Sanmin", "Nanjing Fuxing"],
+      "Nanjing Fuxing": ["Taipei Arena", "Songjiang Nanjing"],
+      "Songjiang Nanjing": ["Nanjing Fuxing", "Zongshan"],
+      "Zongshan": ["Songjiang Nanjing", "Beimen"],
+      "Beimen": ["Zongshan", "Ximen"],
+      "Ximen": ["Beimen", "Xiaonanmen"],
+      "Xiaonanmen": ["Ximen", "Chiang Kai-Shek Memorial Hail"],
+      "Chiang Kai-Shek Memorial Hail": ["Xiaonanmen", "Guting"],
+      "Guting": ["Chiang Kai-Shek Memorial Hail", "Taipower Building"],
+      "Taipower Building": ["Guting", "Gongguan"],
+      "Gongguan": ["Taipower Building", "Wanlong"],
+      "Wanlong": ["Gongguan", "Jingmei"],
+      "Jingmei": ["Wanlong", "Dapinglin"],
+      "Dapinglin": ["Jingmei", "Qizhang"],
+      "Qizhang": ["Dapinglin", "Xindian City Hall", "Xiaobitan"], // Qizhang後分支
+      "Xiaobitan": ["Qizhang"],
+      "Xindian City Hall": ["Qizhang", "Xindian"],
+      "Xindian": ["Xindian City Hall"]
+  };
+
+  // 計算兩個車站的距離（BFS 實現）
+  function distance(stationA, stationB) {
       if (!(stationA in metroMap) || !(stationB in metroMap)) {
-        return Infinity; // 車站無效，返回無窮大距離
+          return Infinity; // 車站無效，返回無窮大距離
       }
-  
-      // 手動實現 BFS
-      const visited = []; // 記錄已訪問的車站
+
+      const visited = new Set(); // 用於記錄已訪問的車站
       const queue = [[stationA, 0]]; // 模擬 BFS 隊列，包含 [車站, 距離]
-  
+
       while (queue.length > 0) {
-        const [current, dist] = queue.shift(); // 從隊列中取出元素
-        if (current === stationB) {
-          return dist; // 找到目標車站，返回距離
-        }
-  
-        if (!visited.includes(current)) {
-          visited.push(current); // 標記為已訪問
-          for (const neighbor of metroMap[current]) {
-            if (!visited.includes(neighbor)) {
-              queue.push([neighbor, dist + 1]); // 加入鄰近車站
-            }
+          const [current, dist] = queue.shift(); // 從隊列中取出元素
+
+          if (current === stationB) {
+              return dist; // 找到目標車站，返回距離
           }
-        }
+
+          if (!visited.has(current)) {
+              visited.add(current); // 標記為已訪問
+              for (const neighbor of metroMap[current]) {
+                  if (!visited.has(neighbor)) {
+                      queue.push([neighbor, dist + 1]);
+                  }
+              }
+          }
       }
-  
+
       return Infinity; // 如果無法到達，返回無窮大
-    }
-  
-    let closestFriend = null;
-    let minDistance = Infinity;
-  
-    // 遍歷每個朋友的訊息
-    for (const [name, location] of Object.entries(messages)) {
+  }
+
+  let closestFriend = null;
+  let minDistance = Infinity;
+
+  // 遍歷每個朋友的訊息
+  for (const [name, location] of Object.entries(messages)) {
       let friendStation = null;
-  
+
       // 從訊息中提取車站名稱
       for (const station in metroMap) {
-        if (location.includes(station)) {
-          friendStation = station;
-          break;
-        }
+          if (location.includes(station)) {
+              friendStation = station;
+              break;
+          }
       }
-  
+
       if (!friendStation) {
-        console.log(`未找到 ${name} 的車站資訊，跳過`);
-        continue; // 如果朋友的描述中沒有有效的車站名稱，跳過
+          console.log(`未找到 ${name} 的車站資訊，跳過`);
+          continue; // 如果朋友的描述中沒有有效的車站名稱，跳過
       }
-  
+
       // 計算距離，並更新最短距離的朋友
       const dist = distance(currentStation, friendStation);
       if (dist < minDistance) {
-        minDistance = dist;
-        closestFriend = name;
+          minDistance = dist;
+          closestFriend = name;
       }
-    }
-  
-    // 印出最近的朋友
-    if (closestFriend) {
-      console.log(closestFriend);
-    } else {
-      console.log("未找到任何最近的朋友");
-    }
   }
-  
-  // 測試資料
-  const messages = {
-    Leslie: "I'm at home near Xiaobitan station.",
-    Bob: "I'm at Ximen MRT station.",
-    Mary: "I have a drink near Jingmei MRT station.",
-    Copper: "I just saw a concert at Taipei Arena.",
-    Vivian: "I'm at Xindian station waiting for you.",
-  };
-  
-  // 測試案例
-  findAndPrint(messages, "Wanlong"); // 預期輸出: Mary
-  findAndPrint(messages, "Songshan"); // 預期輸出: Copper
-  findAndPrint(messages, "Qizhang"); // 預期輸出: Leslie
-  findAndPrint(messages, "Ximen"); // 預期輸出: Bob
-  findAndPrint(messages, "Xindian City Hall"); // 預期輸出: Vivian
+
+  // 印出最近的朋友
+  if (closestFriend) {
+      console.log(closestFriend);
+  } else {
+      console.log("未找到任何最近的朋友");
+  }
+}
+
+// 測試資料
+const messages = {
+  "Leslie": "I'm at home near Xiaobitan station.",
+  "Bob": "I'm at Ximen MRT station.",
+  "Mary": "I have a drink near Jingmei MRT station.",
+  "Copper": "I just saw a concert at Taipei Arena.",
+  "Vivian": "I'm at Xindian station waiting for you."
+};
+
+// 測試案例
+findAndPrint(messages, "Wanlong"); // 預期結果：Mary
+findAndPrint(messages, "Songshan"); // 預期結果：Copper
+findAndPrint(messages, "Qizhang"); // 預期結果：Leslie
+findAndPrint(messages, "Ximen"); // 預期結果：Bob
+findAndPrint(messages, "Xindian City Hall"); // 預期結果：Vivian
+findAndPrint(messages, "Dapinglin"); // 預期結果：Mary
+
 
   console.log("=====================================================")
   console.log("Task2")
