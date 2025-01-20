@@ -45,7 +45,9 @@ with open('spot.csv', mode='w', newline='', encoding='utf-8-sig') as file:  # �
         # 提取第一張圖片的 URL
         img_website = next(("https://" + url for url in img_data.split("https://") if url), "")
         
-        writer.writerow([stitle, district, item["longitude"], item["latitude"], img_website])
+        # 只寫入有內容的列
+        row = [stitle, district, item["longitude"], item["latitude"], img_website]
+        writer.writerow([value for value in row if value])  # 去掉空值
 
 print("資料已成功寫入 'spot.csv'.")
 
@@ -67,13 +69,17 @@ for item in json_data1["data"]["results"]:
     
     mrt_attractions[MRT].append(stitle)
 
-# 處理並寫入 'mrt.csv'
+# 處理並寫入 'mrt.csv'，每列都是一個景點，去掉標頭
 with open('mrt.csv', mode='w', newline='', encoding='utf-8-sig') as file:  # 使用 'utf-8-sig' 編碼，使用EXCEL開啟CSV較能避免亂碼
     writer = csv.writer(file, quoting=csv.QUOTE_MINIMAL, escapechar='\\')  # 使用 'escapechar'
-    writer.writerow(['StationName', 'AttractionTitles'])
     
+    # 最多景點數量
+    max_attractions = max(len(attractions) for attractions in mrt_attractions.values())
+    
+    # 輸出每個捷運站的所有景點
     for mrt_station, attractions in mrt_attractions.items():
-        attractions_str = " ,".join(attractions).replace('"', '').strip()
-        writer.writerow([mrt_station, attractions_str])
+        # 填充景點，若少於最大景點數則填充空白
+        row = [mrt_station] + attractions
+        writer.writerow([value for value in row if value])  # 去掉空值
 
 print("資料已成功寫入 'mrt.csv'.")
