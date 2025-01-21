@@ -10,59 +10,64 @@
 <body>
     <script>
 
-function getData() {
-    fetch("https://padax.github.io/taipei-day-trip-resources/taipei-attractions-assignment-1")
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(data) {
-            let results = data.data.results;  // 取得所有結果
-            // 處理前三個元素
-            results.slice(0, 3).forEach(function(item, index) {
-                let stitle = item.stitle;
-                let firstImageUrl = item.filelist.match(/https?:\/\/\S+?\.(jpg)/)[0];  // 取得第一張圖片
-                console.log(firstImageUrl);
-                
-                // 直接替換前三個的圖片和標題
-                let imgElement = document.querySelector(`.pro-con-${index + 1} img`);
-                let titleElement = document.querySelector(`.pro-con-${index + 1} .promotion-text`);
+document.addEventListener('DOMContentLoaded', function() {
+    function getData() {
+        fetch("https://padax.github.io/taipei-day-trip-resources/taipei-attractions-assignment-1")
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
+                let results = data.data.results;  // 取得所有結果
 
-                // 替換圖片和標題
-                if (imgElement) {
-                    imgElement.src = firstImageUrl;
-                }
+                // 處理前三個元素
+                results.slice(0, 3).forEach(function(item, index) {
+                    let stitle = item.stitle;
+                    let firstImageUrl = item.filelist.match(/https?:\/\/\S+?\.(jpg)/)[0];  // 取得第一張圖片
 
-                if (titleElement) {
-                    titleElement.textContent = stitle;
-                }
+                    // 直接替換前三個的圖片和標題
+                    let imgElement = document.querySelector(`.pro-con-${index + 1} img`);
+                    let titleElement = document.querySelector(`.pro-con-${index + 1} .promotion-text`);
+
+                    // 替換圖片和標題
+                    if (imgElement) {
+                        imgElement.src = firstImageUrl;
+                    }
+
+                    if (titleElement) {
+                        titleElement.textContent = stitle;
+                    }
+                });
+
+                // 從第四個開始設置背景圖片
+                results.slice(3).forEach(function(item, index) {
+                    let stitle = item.stitle;
+                    let firstImageUrl = item.filelist.match(/https?:\/\/\S+?\.(jpg|jpeg|png|gif)/i)[0];  // 取得第一張圖片
+
+                    let cardElement = document.querySelector(`.title${index + 1}`);  // title4 開始
+                    if (cardElement) {
+                        cardElement.style.backgroundImage = `url(${firstImageUrl})`;
+                        let titleElement = cardElement.querySelector('.card-title');
+                        if (titleElement) {
+                            titleElement.textContent = stitle;
+                        }
+                    }
+                });
+
+                document.querySelectorAll('.card-title').forEach(function (element) {
+                    let text = element.textContent;
+                    if (text.length > 7) {
+                        element.textContent = text.slice(0, 7) + '...';  // 截斷多於6個字符的部分，並添加 '...'
+                    }
+                });
+            })
+            .catch(function(error) {
+                console.error('Error:', error);
             });
+    }
 
-            // 從第四個開始設置背景圖片
-            results.slice(3).forEach(function(item, index) {
-                let stitle = item.stitle;
-                let firstImageUrl = item.filelist.match(/https?:\/\/\S+?\.(jpg|jpeg|png|gif)/i)[0];  // 取得第一張圖片
-                
-                // 這裡假設背景圖片要設在 .card-title 或 .card 的背景
-                let cardElement = document.querySelector(`.title${index + 1}`);  // title4 開始
-                let titleElement = cardElement.querySelector('.card-title');
-                console.log(firstImageUrl);
-                // 設置背景圖片
-                if (cardElement) {
-                    cardElement.style.backgroundImage = `url(${firstImageUrl})`;
-                }
+    getData();
+});
 
-                // 替換標題
-                if (titleElement) {
-                    titleElement.textContent = stitle;
-                }
-            });
-        })
-        .catch(function(error) {
-            console.error('Error:', error);
-        });
-}
-
-getData();
 
 
 
