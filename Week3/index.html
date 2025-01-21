@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.querySelectorAll('.card-title').forEach(function (element) {
                     let text = element.textContent;
                     if (text.length > 7) {
-                        element.textContent = text.slice(0, 7) + '...';  // 截斷多於6個字符的部分，並添加 '...'
+                        element.textContent = text.slice(0, 7) + '...';  // 刪除多於6個字符的部分，並添加 '...'
                     }
                 });
             })
@@ -67,20 +67,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     getData();
 });
-
-
-
-
-
-
-
-
-
-
-
- 
-
-
 
 
         document.addEventListener("DOMContentLoaded", function() {
