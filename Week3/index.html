@@ -46,10 +46,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     let cardElement = document.querySelector(`.title${index + 1}`);  // title4 開始
                     if (cardElement) {
                         cardElement.style.backgroundImage = `url(${firstImageUrl})`;
+                        
+                        // 用 createElement 來加入標題元素
                         let titleElement = cardElement.querySelector('.card-title');
-                        if (titleElement) {
-                            titleElement.textContent = stitle;
+                        if (!titleElement) {
+                            titleElement = document.createElement('div');
+                            titleElement.classList.add('card-title');
+                            cardElement.appendChild(titleElement);
                         }
+
+                        titleElement.textContent = stitle;
                     }
                 });
 
@@ -67,6 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     getData();
 });
+
 
 
         document.addEventListener("DOMContentLoaded", function() {
