@@ -9,6 +9,51 @@
 
 <body>
     <script>
+
+function getData() {
+    fetch("https://padax.github.io/taipei-day-trip-resources/taipei-attractions-assignment-1")
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(data) {
+            let results = data.data.results.slice(0, 3);  // 取得前三個結果
+            results.forEach(function(item, index) {
+                let stitle = item.stitle;
+                let firstImageUrl = item.filelist.match(/https?:\/\/\S+?\.(jpg|jpeg|png|gif)/)[0];  // 非貪婪匹配第一個圖片網址
+
+                // 直接選擇對應的圖片和標題元素
+                let imgElement = document.querySelector(`.pro-con-${index + 1} img`);
+                let titleElement = document.querySelector(`.pro-con-${index + 1} .promotion-text`);
+
+                // 替換圖片和標題
+                if (imgElement) {
+                    imgElement.src = firstImageUrl;
+                }
+
+                if (titleElement) {
+                    titleElement.textContent = stitle;
+                }
+            });
+        })
+        .catch(function(error) {
+            console.error('Error:', error);
+        });
+}
+
+getData();
+
+
+
+
+
+
+
+
+ 
+
+
+
+
         document.addEventListener("DOMContentLoaded", function() {
             const menuButton = document.querySelector(".menu");
             const closeButton = document.querySelector(".close");
@@ -22,6 +67,8 @@
                 asideMenu.classList.remove("active");
             });
         });
+
+
 
     </script>
 
@@ -57,21 +104,21 @@
     <div class="image-content">
             <div class="promotion">
                 <div class="pro-con-1" style="display: flex;">
-                    <img src="./image/pui-pui.jpg" style="width: 80px; height: 50px;"></img>
+                    <img style="width: 80px; height: 50px;"></img>
                     <div class="promotion-text middle-screen1">Promotion 1</div>
                 </div>
                 <div class="pro-con-2" style="display: flex;">
-                    <img src="./image/pui-pui.jpg" style="width: 80px; height: 50px;"></img>
+                    <img style="width: 80px; height: 50px;"></img>
                     <div class="promotion-text middle-screen2">Promotion 2</div>
                 </div>
                 <div class="pro-con-3" style="display: flex;">
-                    <img src="./image/pui-pui.jpg" style="width: 80px; height: 50px;"></img>
+                    <img style="width: 80px; height: 50px;"></img>
                     <div class="promotion-text middle-screen3">Promotion 3</div>
                 </div>
             </div>
 
                 <div class="row-grid">
-                    <div class="card-big title1 ">
+                    <div class="card title1 ">
                         <div class="image-container ">
                             <img class="big-image"></img>
 
@@ -81,7 +128,7 @@
                         </div>
                     </div>
 
-                    <div class="card-small title2">
+                    <div class="card title2">
                         <div class="image-container">
                             <img class="small-image" ></img>
                             <img class="star" src="./image/star.png"></img>
@@ -89,7 +136,7 @@
                         <div class="card-title">Title 2</div>
                     </div>
 
-                    <div class="card-small title3">
+                    <div class="card title3">
                         <div class="image-container">
                             <img class="small-image"></img>
                             <img class="star" src="./image/star.png"></img>
@@ -97,7 +144,7 @@
                         <div class="card-title">Title 3</div>
                     </div>
 
-                    <div class="card-small title4">
+                    <div class="card title4">
                         <div class="image-container">
                             <img class="small-image"></img>
                             <img class="star" src="./image/star.png"></img>
@@ -105,7 +152,7 @@
                         <div class="card-title">Title 4</div>
                     </div>
 
-                    <div class="card-small title5">
+                    <div class="card title5">
                         <div class="image-container">
                             <img class="small-image"></img>
                             <img class="star" src="./image/star.png"></img>
@@ -113,7 +160,7 @@
                         <div class="card-title">Title 5</div>
                     </div>
 
-                    <div class="card-big title6">
+                    <div class="card title6">
                         <div class="image-container">
                             <img class="big-image"></img>
                             <img class="star" src="./image/star.png"></img>
@@ -121,7 +168,7 @@
                         <div class="card-title">Title 6</div>
                     </div>
 
-                    <div class="card-small title7">
+                    <div class="card title7">
                         <div class="image-container">
                             <img class="small-image"></img>
                             <img class="star" src="./image/star.png"></img>
@@ -129,7 +176,7 @@
                         <div class="card-title">Title 7</div>
                     </div>
 
-                    <div class="card-small title8">
+                    <div class="card title8">
                         <div class="image-container">
                             <img class="small-image"></img>
                             <img class="star" src="./image/star.png"></img>
@@ -137,7 +184,7 @@
                         <div class="card-title">Title 8</div>
                     </div>
 
-                    <div class="card-small title9">
+                    <div class="card title9">
                         <div class="image-container">
                             <img class="small-image"></img>
                             <img class="star" src="./image/star.png"></img>
@@ -145,7 +192,7 @@
                         <div class="card-title">Title 9</div>
                     </div>
 
-                    <div class="card-small title10">
+                    <div class="card title10">
                         <div class="image-container">
                             <img class="small-image"></img>
                             <img class="star" src="./image/star.png"></img>

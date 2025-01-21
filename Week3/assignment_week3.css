@@ -87,16 +87,10 @@ nav {
     margin-right: auto;         /* 使元素水平置中 */
 }
 
-.card-big {
+.card {
     position: relative;
-    background-image: url("./image/pui-pui.jpg");
-    background-position: center;    
-}
-
-.card-small {
-    position: relative;
-    background-image: url("./image/pui-pui.jpg");
-    background-position: center;  
+    background-position: center;
+    background-image: url(./image/pui-pui.jpg);    
 }
 
 
