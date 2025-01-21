@@ -16,12 +16,14 @@ function getData() {
             return response.json();
         })
         .then(function(data) {
-            let results = data.data.results.slice(0, 3);  // 取得前三個結果
-            results.forEach(function(item, index) {
+            let results = data.data.results;  // 取得所有結果
+            // 處理前三個元素
+            results.slice(0, 3).forEach(function(item, index) {
                 let stitle = item.stitle;
-                let firstImageUrl = item.filelist.match(/https?:\/\/\S+?\.(jpg|jpeg|png|gif)/)[0];  // 非貪婪匹配第一個圖片網址
-
-                // 直接選擇對應的圖片和標題元素
+                let firstImageUrl = item.filelist.match(/https?:\/\/\S+?\.(jpg)/)[0];  // 取得第一張圖片
+                console.log(firstImageUrl);
+                
+                // 直接替換前三個的圖片和標題
                 let imgElement = document.querySelector(`.pro-con-${index + 1} img`);
                 let titleElement = document.querySelector(`.pro-con-${index + 1} .promotion-text`);
 
@@ -34,6 +36,26 @@ function getData() {
                     titleElement.textContent = stitle;
                 }
             });
+
+            // 從第四個開始設置背景圖片
+            results.slice(3).forEach(function(item, index) {
+                let stitle = item.stitle;
+                let firstImageUrl = item.filelist.match(/https?:\/\/\S+?\.(jpg|jpeg|png|gif)/i)[0];  // 取得第一張圖片
+                
+                // 這裡假設背景圖片要設在 .card-title 或 .card 的背景
+                let cardElement = document.querySelector(`.title${index + 1}`);  // title4 開始
+                let titleElement = cardElement.querySelector('.card-title');
+                console.log(firstImageUrl);
+                // 設置背景圖片
+                if (cardElement) {
+                    cardElement.style.backgroundImage = `url(${firstImageUrl})`;
+                }
+
+                // 替換標題
+                if (titleElement) {
+                    titleElement.textContent = stitle;
+                }
+            });
         })
         .catch(function(error) {
             console.error('Error:', error);
@@ -41,6 +63,8 @@ function getData() {
 }
 
 getData();
+
+
 
 
 
