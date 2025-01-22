@@ -1,5 +1,6 @@
 body {
     margin: 0;
+    padding-bottom: 10%;
 }
 
 /* 導覽列樣式 */
@@ -43,6 +44,7 @@ nav {
     text-align: center;
 }
 
+/*讓容器內的物件對其*/
 .image-content {
     display: flex;
     justify-content: center;

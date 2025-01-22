@@ -11,6 +11,10 @@
     <script>
 
 document.addEventListener('DOMContentLoaded', function() {
+    let results = [];
+    let displayedCount = 10; // 已經顯示的項目數量 (預設顯示前10個)
+    const itemsPerLoad = 10; // 每次加載的項目數量
+
     function getData() {
         fetch("https://padax.github.io/taipei-day-trip-resources/taipei-attractions-assignment-1")
             .then(function(response) {
@@ -18,57 +22,9 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(function(data) {
                 if (data && data.data && data.data.results) {
-                    let results = data.data.results;
-                    console.log(results);
-
-                    // 處理前三個結果
-                    results.slice(0, 3).forEach(function(item, index) {
-                        let stitle = item.stitle;
-                        let firstImageUrl = "";
-
-                        // 確保 item.filelist 存在且格式正確
-                        if (item.filelist && typeof item.filelist === "string") {
-                            // 正則表達式從 filelist 中提取第一張圖片的 URL
-                            let match = item.filelist.match(/https?:\/\/\S+?\.(jpg|jpeg|png|gif)/i);
-                            if (match) {
-                                firstImageUrl = match[0];  // 提取圖片網址
-                            }
-                        }
-
-                        // 如果未找到圖片，使用占位圖片
-                        if (!firstImageUrl) {
-                            firstImageUrl = 'https://via.placeholder.com/150';  // 使用占位圖片
-                        }
-
-                        // 更新圖片和標題
-                        let imgElement = document.querySelector(`.pro-con-${index + 1} img`);
-                        let titleElement = document.querySelector(`.pro-con-${index + 1} .promotion-text`);
-
-                        if (imgElement) {
-                            imgElement.src = firstImageUrl;
-                        }
-
-                        if (titleElement) {
-                            titleElement.textContent = stitle;
-                        }
-                    });
-
-                    // 處理其他結果，創建卡片
-                    results.slice(3).forEach(function(item, index) {
-                        let stitle = item.stitle || "No Title Available";
-                        let firstImageUrl = 'https://via.placeholder.com/150';  // 使用占位圖片
-
-                        // 確保 item.filelist 存在且格式正確
-                        if (item.filelist && typeof item.filelist === "string") {
-                            let match = item.filelist.match(/https?:\/\/\S+?\.(jpg|jpeg|png|gif)/i);
-                            if (match) {
-                                firstImageUrl = match[0];
-                            }
-                        }
-
-                        // 動態創建卡片
-                        createCard(index + 1, firstImageUrl, stitle);
-                    });
+                    results = data.data.results;
+                    displayPromotionItems();
+                    displayInitialItems();
                 } else {
                     console.error('Data structure is incorrect or missing "results".');
                 }
@@ -76,6 +32,62 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(function(error) {
                 console.error('Error:', error);
             });
+    }
+
+    function displayPromotionItems() {
+        // 處理前三個結果，更新 promotion 的部分
+        results.slice(0, 3).forEach(function(item, index) {
+            let stitle = item.stitle;
+            let firstImageUrl = getFirstImageUrl(item.filelist);
+
+            // 如果未找到圖片，使用占位圖片
+            if (!firstImageUrl) {
+                firstImageUrl = 'https://via.placeholder.com/150';  // 使用占位圖片
+            }
+
+            // 更新圖片和標題
+            let imgElement = document.querySelector(`.pro-con-${index + 1} img`);
+            let titleElement = document.querySelector(`.pro-con-${index + 1} .promotion-text`);
+
+            if (imgElement) {
+                imgElement.src = firstImageUrl;
+            }
+
+            if (titleElement) {
+                titleElement.textContent = stitle;
+            }
+        });
+    }
+
+    function displayInitialItems() {
+        // 顯示第4到第10個項目
+        displayItems(3, 13);
+    }
+
+    function displayItems(startIndex, endIndex) {
+        results.slice(startIndex, endIndex).forEach(function(item, index) {
+            let stitle = item.stitle || "No Title Available";
+            let firstImageUrl = getFirstImageUrl(item.filelist);
+
+            // 如果未找到圖片，使用占位圖片
+            if (!firstImageUrl) {
+                firstImageUrl = 'https://via.placeholder.com/150';  // 使用占位圖片
+            }
+
+            createCard(startIndex + index + 1, firstImageUrl, stitle);
+        });
+
+        displayedCount = endIndex; // 更新已顯示的項目數量
+    }
+
+    function getFirstImageUrl(filelist) {
+        if (filelist && typeof filelist === "string") {
+            let match = filelist.match(/https?:\/\/\S+?\.(jpg|jpeg|png|gif)/i);
+            if (match) {
+                return match[0];
+            }
+        }
+        return '';
     }
 
     function createCard(index, imageUrl, title) {
@@ -107,8 +119,25 @@ document.addEventListener('DOMContentLoaded', function() {
         gridContainer.appendChild(cardElement);
     }
 
+    document.querySelector('.btn').addEventListener('click', function() {
+        let nextStartIndex = displayedCount;
+        let nextEndIndex = displayedCount + itemsPerLoad;
+
+        if (nextStartIndex < results.length) {
+            displayItems(nextStartIndex, Math.min(nextEndIndex, results.length));
+
+            // 檢查是否顯示完所有項目，如果是，隱藏按鈕
+            if (nextEndIndex >= results.length) {
+                document.querySelector('.btn').style.display = 'none';
+            }
+        }
+    });
+
     getData();
 });
+
+
+
 
 
 
