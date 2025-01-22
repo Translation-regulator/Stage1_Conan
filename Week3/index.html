@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 let firstImageUrl = firstImageUrlMatch ? firstImageUrlMatch[0] : 'default.jpg';  // 預設圖片
 
                 // 使用更通用的選擇器，確保選擇正確的卡片
-                let cardElement = document.querySelector(`.title${index + 1}`);  // title4 開始，對應 slice(3)
+                let cardElement = document.querySelector(`.title${index + 1}`);  // title1 開始，對應 slice(3)
                 if (cardElement) {
                     cardElement.style.backgroundImage = `url(${firstImageUrl})`;
 
