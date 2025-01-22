@@ -47,17 +47,20 @@ nav {
     display: flex;
     flex-direction: column;
     max-width: fit-content;
-    margin: 0 auto;
-    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .promotion {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     gap: 20px;
-    max-width: 1200px;
-    padding-top: 20px;
-    margin: 0 0;
+    margin-top: 30px;
+    flex-wrap: wrap;
+    width: 100%;                /* 占滿整個可用寬度 */
+    max-width: 100%;          /* 設定最大寬度為1200px */
+    margin-left: auto;          /* 使元素水平置中 */
+    margin-right: auto;         /* 使元素水平置中 */
 }
 
 .promotion > div {
@@ -81,12 +84,13 @@ nav {
 }
 
 .row-grid {
-    max-width: 1200px;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(182.5px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(182.5px, 1fr)); /* 自動調整寬度 */
+    grid-gap: 20px;
+    width: 100%;
     padding-top: 20px;
-    margin: 0 auto;
+    margin-left: auto;          /* 使元素水平置中 */
+    margin-right: auto;         /* 使元素水平置中 */
 }
 
 .row-grid .card:nth-child(5n + 1) {
