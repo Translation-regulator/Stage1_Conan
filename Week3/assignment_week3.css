@@ -58,14 +58,13 @@ nav {
 
 .promotion {
     display: flex;
-    justify-content: center;
+    justify-content: space-between; /* 使內部項目之間有空間 */
     gap: 20px;
-    margin-top: 30px;
-    flex-wrap: wrap;
     width: 100%;                /* 占滿整個可用寬度 */
-    max-width: 100%;          /* 設定最大寬度為1200px */
+    max-width: 1200px;          /* 設定最大寬度 */
     margin-left: auto;          /* 使元素水平置中 */
     margin-right: auto;         /* 使元素水平置中 */
+    padding-top: 20px;
 }
 
 
@@ -75,28 +74,38 @@ nav {
     line-height: 50px;
     font-size: 20px;
     padding-left: 5px;
+
 }
 
 .row-grid {
+    max-width: 1200px;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(182.5px, 1fr)); /* 自動調整寬度 */
+    grid-template-columns: repeat(auto-fill, minmax(180.5px, 1fr)); /* 自動調整寬度 */
     grid-gap: 20px;
     width: 100%;
     padding-top: 20px;
     margin-left: auto;          /* 使元素水平置中 */
     margin-right: auto;         /* 使元素水平置中 */
+    justify-content: center;
 }
 
 .card {
     position: relative;
-    background-position: center;
-    background-image: url();   
-    background-size: cover;
-    background-position: center; 
+    width: 100%;
+    height: 200px;              /* 設定固定的高度 */
+    overflow: hidden;
+}
+
+/* 只影響圖片，不會影響星星 */
+.card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;          /* 確保圖片填充容器並保持比例 */
+    object-position: center;    /* 讓圖片置中 */
 }
 
 
-.title1, .title6 {
+.row-grid .card:nth-child(5n + 1) {
     grid-column: span 2;
 }
 
@@ -125,12 +134,14 @@ nav {
 }
 
 
-.star {
+.card .star {
     position: absolute;
     top: 2px;
     right: 2px;
     cursor: pointer;
     width: 40px;
+    height: 40px;
+    z-index: 10; /* 確保星星在圖片之上 */
 }
 
 .card-title {

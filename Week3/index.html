@@ -17,64 +17,106 @@ document.addEventListener('DOMContentLoaded', function() {
                 return response.json();
             })
             .then(function(data) {
-                let results = data.data.results;  // 取得所有結果
-                console.log(results)
-                // 處理前三個元素
-                results.slice(0, 3).forEach(function(item, index) {
-                    let stitle = item.stitle;
-                    let firstImageUrl = item.filelist.match(/https?:\/\/\S+?\.(jpg)/)[0];  // 取得第一張圖片
+                if (data && data.data && data.data.results) {
+                    let results = data.data.results;
+                    console.log(results);
 
-                    // 直接替換前三個的圖片和標題
-                    let imgElement = document.querySelector(`.pro-con-${index + 1} img`);
-                    let titleElement = document.querySelector(`.pro-con-${index + 1} .promotion-text`);
+                    // 處理前三個結果
+                    results.slice(0, 3).forEach(function(item, index) {
+                        let stitle = item.stitle;
+                        let firstImageUrl = "";
 
-                    // 替換圖片和標題
-                    if (imgElement) {
-                        imgElement.src = firstImageUrl;
-                    }
+                        // 確保 item.filelist 存在且格式正確
+                        if (item.filelist && typeof item.filelist === "string") {
+                            // 正則表達式從 filelist 中提取第一張圖片的 URL
+                            let match = item.filelist.match(/https?:\/\/\S+?\.(jpg|jpeg|png|gif)/i);
+                            if (match) {
+                                firstImageUrl = match[0];  // 提取圖片網址
+                            }
+                        }
 
-                    if (titleElement) {
-                        titleElement.textContent = stitle;
-                    }
-                });
+                        // 如果未找到圖片，使用占位圖片
+                        if (!firstImageUrl) {
+                            firstImageUrl = 'https://via.placeholder.com/150';  // 使用占位圖片
+                        }
 
-                results.slice(3).forEach(function(item, index) {
-                let stitle = item.stitle || "No Title Available";  // 預設標題
-                let firstImageUrlMatch = item.filelist.match(/https?:\/\/\S+?\.(jpg|jpeg|png|gif)/i);
-                let firstImageUrl = firstImageUrlMatch ? firstImageUrlMatch[0] : 'default.jpg';  // 預設圖片
+                        // 更新圖片和標題
+                        let imgElement = document.querySelector(`.pro-con-${index + 1} img`);
+                        let titleElement = document.querySelector(`.pro-con-${index + 1} .promotion-text`);
 
-                // 使用更通用的選擇器，確保選擇正確的卡片
-                let cardElement = document.querySelector(`.title${index + 1}`);  // title1 開始，對應 slice(3)
-                if (cardElement) {
-                    cardElement.style.backgroundImage = `url(${firstImageUrl})`;
+                        if (imgElement) {
+                            imgElement.src = firstImageUrl;
+                        }
 
-                    // 使用 createElement 來加入標題元素
-                    let titleElement = cardElement.querySelector('.card-title');
-                    if (!titleElement) {
-                        titleElement = document.createElement('div');
-                        titleElement.classList.add('card-title');
-                        cardElement.appendChild(titleElement);
-                    }
+                        if (titleElement) {
+                            titleElement.textContent = stitle;
+                        }
+                    });
 
-                    titleElement.textContent = stitle;
+                    // 處理其他結果，創建卡片
+                    results.slice(3).forEach(function(item, index) {
+                        let stitle = item.stitle || "No Title Available";
+                        let firstImageUrl = 'https://via.placeholder.com/150';  // 使用占位圖片
+
+                        // 確保 item.filelist 存在且格式正確
+                        if (item.filelist && typeof item.filelist === "string") {
+                            let match = item.filelist.match(/https?:\/\/\S+?\.(jpg|jpeg|png|gif)/i);
+                            if (match) {
+                                firstImageUrl = match[0];
+                            }
+                        }
+
+                        // 動態創建卡片
+                        createCard(index + 1, firstImageUrl, stitle);
+                    });
+                } else {
+                    console.error('Data structure is incorrect or missing "results".');
                 }
-            });
-
-
-                document.querySelectorAll('.card-title').forEach(function (element) {
-                    let text = element.textContent;
-                    if (text.length > 7) {
-                        element.textContent = text.slice(0, 7) + '...';  // 刪除多於6個字符的部分，並添加 '...'
-                    }
-                });
             })
             .catch(function(error) {
                 console.error('Error:', error);
             });
     }
 
+    function createCard(index, imageUrl, title) {
+        let gridContainer = document.querySelector('.row-grid');
+
+        let cardElement = document.createElement('div');
+        cardElement.classList.add('card', `title${index}`);
+
+        let imageContainer = document.createElement('div');
+        imageContainer.classList.add('image-container');
+
+        let imgElement = document.createElement('img');
+        imgElement.classList.add('image');
+        imgElement.src = imageUrl;
+
+        let starElement = document.createElement('img');
+        starElement.classList.add('star');
+        starElement.src = './image/star.png';
+
+        let titleElement = document.createElement('div');
+        titleElement.classList.add('card-title');
+        titleElement.textContent = title;
+
+        imageContainer.appendChild(imgElement);
+        imageContainer.appendChild(starElement);
+        cardElement.appendChild(imageContainer);
+        cardElement.appendChild(titleElement);
+
+        gridContainer.appendChild(cardElement);
+    }
+
     getData();
 });
+
+
+
+
+
+
+
+
 
 
 
@@ -141,88 +183,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
             </div>
 
-                <div class="row-grid">
-                    <div class="card title1 ">
-                        <div class="image-container ">
-                            <img class="big-image"></img>
-
-                            <img class="star" src="./image/star.png"></img>
-
-                            <div class="card-title">Title 1</div>
-                        </div>
-                    </div>
-
-                    <div class="card title2">
-                        <div class="image-container">
-                            <img class="small-image" ></img>
-                            <img class="star" src="./image/star.png"></img>
-                        </div>
-                        <div class="card-title">Title 2</div>
-                    </div>
-
-                    <div class="card title3">
-                        <div class="image-container">
-                            <img class="small-image"></img>
-                            <img class="star" src="./image/star.png"></img>
-                        </div>
-                        <div class="card-title">Title 3</div>
-                    </div>
-
-                    <div class="card title4">
-                        <div class="image-container">
-                            <img class="small-image"></img>
-                            <img class="star" src="./image/star.png"></img>
-                        </div>
-                        <div class="card-title">Title 4</div>
-                    </div>
-
-                    <div class="card title5">
-                        <div class="image-container">
-                            <img class="small-image"></img>
-                            <img class="star" src="./image/star.png"></img>
-                        </div>
-                        <div class="card-title">Title 5</div>
-                    </div>
-
-                    <div class="card title6">
-                        <div class="image-container">
-                            <img class="big-image"></img>
-                            <img class="star" src="./image/star.png"></img>
-                        </div>
-                        <div class="card-title">Title 6</div>
-                    </div>
-
-                    <div class="card title7">
-                        <div class="image-container">
-                            <img class="small-image"></img>
-                            <img class="star" src="./image/star.png"></img>
-                        </div>
-                        <div class="card-title">Title 7</div>
-                    </div>
-
-                    <div class="card title8">
-                        <div class="image-container">
-                            <img class="small-image"></img>
-                            <img class="star" src="./image/star.png"></img>
-                        </div>
-                        <div class="card-title">Title 8</div>
-                    </div>
-
-                    <div class="card title9">
-                        <div class="image-container">
-                            <img class="small-image"></img>
-                            <img class="star" src="./image/star.png"></img>
-                        </div>
-                        <div class="card-title">Title 9</div>
-                    </div>
-
-                    <div class="card title10">
-                        <div class="image-container">
-                            <img class="small-image"></img>
-                            <img class="star" src="./image/star.png"></img>
-                        </div>
-                        <div class="card-title">Title 10</div>
-                    </div>
+                <div class="row-grid"></div>
                 </div>
 
     </div>
