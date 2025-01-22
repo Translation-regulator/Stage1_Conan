@@ -147,7 +147,7 @@ nav {
 
 .btn {
     flex: none;
-    width: 10%;
+    width: 15vw;
     margin: 20px auto; /* 上下邊距為20px，左右邊距自動以置中 */
     padding: 10px;
     text-align: center; /* 文字置中 */
@@ -158,6 +158,7 @@ nav {
     cursor: pointer; /* 指標變為手型 */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 添加陰影 */
     transition: background-color 0.3s, box-shadow 0.3s; /* 添加過渡效果 */
+    font-size: 100%;
 }
 
 .btn:hover {
@@ -173,8 +174,16 @@ nav {
         width: 45vw;
     }
 
+    .middle-screen1, .middle-screen2 {
+        width: 100%;
+    }
+
     .pro-con-3 {
         width: calc(90vw + 20px);
+    }
+
+    .middle-screen3{
+        width: 100%;
     }
 
     .row-grid {
@@ -182,9 +191,14 @@ nav {
         width: calc(90vw + 20px);
     }
 
+    .row-grid .card:nth-child(5n + 1) {
+        grid-column: span 1;
+    }
+
     .aside-menu {
         display: none;
     }
+
 }
 
 /* 設定螢幕大小介於360~600之間 */
@@ -208,9 +222,18 @@ nav {
         width: 90vw;
     }
 
+    .promotion-text {
+        width: 100%;
+    }
+
     .row-grid {
+        flex-wrap: wrap;
         grid-template-columns: repeat(1, 1fr);
         width: 90vw;
+    }
+
+    .row-grid .card:nth-child(n) {
+        grid-column: span 2;
     }
 
     body {
