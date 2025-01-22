@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(function(data) {
                 let results = data.data.results;  // 取得所有結果
-
+                console.log(results)
                 // 處理前三個元素
                 results.slice(0, 3).forEach(function(item, index) {
                     let stitle = item.stitle;
@@ -38,26 +38,28 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 });
 
-                // 從第四個開始設置背景圖片
                 results.slice(3).forEach(function(item, index) {
-                    let stitle = item.stitle;
-                    let firstImageUrl = item.filelist.match(/https?:\/\/\S+?\.(jpg|jpeg|png|gif)/i)[0];  // 取得第一張圖片
+                let stitle = item.stitle || "No Title Available";  // 預設標題
+                let firstImageUrlMatch = item.filelist.match(/https?:\/\/\S+?\.(jpg|jpeg|png|gif)/i);
+                let firstImageUrl = firstImageUrlMatch ? firstImageUrlMatch[0] : 'default.jpg';  // 預設圖片
 
-                    let cardElement = document.querySelector(`.title${index + 1}`);  // title4 開始
-                    if (cardElement) {
-                        cardElement.style.backgroundImage = `url(${firstImageUrl})`;
-                        
-                        // 用 createElement 來加入標題元素
-                        let titleElement = cardElement.querySelector('.card-title');
-                        if (!titleElement) {
-                            titleElement = document.createElement('div');
-                            titleElement.classList.add('card-title');
-                            cardElement.appendChild(titleElement);
-                        }
+                // 使用更通用的選擇器，確保選擇正確的卡片
+                let cardElement = document.querySelector(`.title${index + 1}`);  // title4 開始，對應 slice(3)
+                if (cardElement) {
+                    cardElement.style.backgroundImage = `url(${firstImageUrl})`;
 
-                        titleElement.textContent = stitle;
+                    // 使用 createElement 來加入標題元素
+                    let titleElement = cardElement.querySelector('.card-title');
+                    if (!titleElement) {
+                        titleElement = document.createElement('div');
+                        titleElement.classList.add('card-title');
+                        cardElement.appendChild(titleElement);
                     }
-                });
+
+                    titleElement.textContent = stitle;
+                }
+            });
+
 
                 document.querySelectorAll('.card-title').forEach(function (element) {
                     let text = element.textContent;
