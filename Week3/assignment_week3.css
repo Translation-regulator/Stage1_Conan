@@ -45,6 +45,7 @@ nav {
 
 .image-content {
     display: flex;
+    justify-content: center;
     flex-direction: column;
     max-width: fit-content;
     margin-left: auto;
@@ -141,6 +142,28 @@ nav {
 .aside-menu {
     display: none;
 }
+
+.btn {
+    flex: none;
+    width: 10%;
+    margin: 20px auto; /* 上下邊距為20px，左右邊距自動以置中 */
+    padding: 10px;
+    text-align: center; /* 文字置中 */
+    background-color: #dedfe0; /* 設定背景色 */
+    color: black; /* 設定文字顏色 */
+    border: none; /* 移除邊框 */
+    border-radius: 5px; /* 圓角 */
+    cursor: pointer; /* 指標變為手型 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 添加陰影 */
+    transition: background-color 0.3s, box-shadow 0.3s; /* 添加過渡效果 */
+}
+
+.btn:hover {
+    background-color: #696969; /* 滑鼠懸停時的背景色 */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1); /* 改變陰影 */
+}
+
+
 
 /* 設定螢幕大小介於600~1200之間 */
 @media (min-width: 600px) and (max-width: 1200px) {
