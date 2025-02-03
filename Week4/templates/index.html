@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="outer-container">
+        <div>
+            <div class="title">歡迎光臨，請輸入帳號密碼</div>
+        </div>
+        <div class="outer-contain">
+            <div class="container">
+                <div class="inner-container">
+                    <h2>登入系統</h2>
+                    <form id="signinForm" action="/signin" method="post">
+                        <div class="input-group">
+                            <label for="username">帳號</label>
+                            <input class="account" type="text" name="username" id="username" placeholder="Username" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="password">密碼</label>
+                            <input class="password" type="password" name="password" id="password" placeholder="Password" required>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="agreeCheckbox">
+                            <label for="agreeCheckbox">同意條款</label>
+                        </div>
+                        <button type="submit">登入</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="outer-contain">
+        <div class="container">
+            <div class="inner-container">
+                <h2>計算正整數的平方</h2>
+                <form id="squareForm" action="/{number}" method="get">
+                    <div class="input-group">
+                        <label for="number">正整數</label>
+                        <input type="number" name="number" id="number" placeholder="Positive Integer" required>
+                    </div>
+                    <button type="submit">計算</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById("signinForm").addEventListener("submit", function(event) {
+            if (!document.getElementById("agreeCheckbox").checked) {
+                event.preventDefault();
+                alert("Please check the checkbox first");
+            }
+        });
+    </script>
+</body>
+</html>
