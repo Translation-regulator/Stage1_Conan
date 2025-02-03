@@ -7,11 +7,14 @@
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <div class="container">
-        <h2>Squared Number</h2>
-        <p>{{ request.number }}² = {{ request.squared }}</p>
-        <a href="/">Go back</a>
+    <div class="outer-contain">
+        <div class="container">
+            <div class="inner-container">
+                <h1>正整數平方結果</h1>
+                <h2>{{ squared }}</h2> 
+                <a href="/">返回首頁</a>
+            </div>
+        </div>
     </div>
 </body>
 </html>
-

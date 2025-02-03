@@ -38,7 +38,7 @@
         <div class="container">
             <div class="inner-container">
                 <h2>計算正整數的平方</h2>
-                <form id="squareForm" action="/{number}" method="get">
+                <form id="squareForm" method="get">
                     <div class="input-group">
                         <label for="number">正整數</label>
                         <input type="number" name="number" id="number" placeholder="Positive Integer" required>
@@ -54,6 +54,16 @@
                 event.preventDefault();
                 alert("Please check the checkbox first");
             }
+        });
+
+        document.getElementById("squareForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // 阻止預設提交行為
+        let number = document.getElementById("number").value;
+        if (number <= 0 || isNaN(number)) {
+            alert("請輸入有效的正整數");
+            return;
+        }
+        window.location.href = "/square/" + number; // 重新導向到 /square/{number}
         });
     </script>
 </body>

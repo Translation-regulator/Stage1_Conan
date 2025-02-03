@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Form, Request, Depends
-from fastapi.responses import RedirectResponse, HTMLResponse
+from fastapi.responses import RedirectResponse, HTMLResponse, FileResponse
 from starlette.middleware.sessions import SessionMiddleware  
 from starlette.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
@@ -42,3 +42,4 @@ def signout(request: Request):
 def square(number: int, request: Request):
     squared = number ** 2
     return templates.TemplateResponse("square.html", {"request": request, "number": number, "squared": squared})
+
