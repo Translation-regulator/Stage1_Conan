@@ -4,7 +4,7 @@
 ![](./screenshot/Task1/登入成功.PNG)
 ## Task 2: Create database and table in your MySQL server
 ### Create a new database named website.
-![](./screenshot/Task2/create%20database%20website.PNG)
+![](./screenshot/Task2/create%20database%20website%20and%20use.PNG)
 ### Create a new table named member, in the website database.
 ![](./screenshot/Task2/create%20table%20named%20member.PNG)
 ## Task 3: SQL CRUD
