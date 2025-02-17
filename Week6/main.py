@@ -3,6 +3,7 @@ from fastapi.responses import RedirectResponse
 from starlette.middleware.sessions import SessionMiddleware  
 from starlette.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
+from urllib.parse import urlencode
 import mysql.connector
 
 # 初始化 FastAPI
@@ -59,21 +60,14 @@ def signin(request: Request, username: str = Form(...), password: str = Form(...
     db.close()
 
     if not user:
-        return templates.TemplateResponse("error.html", {
-            "request": request,
-            "message": "帳號或密碼錯誤",
-            "error_type": "login"
-        })
+        error_message = urlencode({"message": "帳號或密碼輸入錯誤"})
+        return RedirectResponse(f"/error?{error_message}", status_code=303)
 
-    # 設定 session 存放會員資訊
     request.session["SIGNED-IN"] = True
     request.session["USER_ID"] = user["id"]
     request.session["NAME"] = user["name"]
 
     return RedirectResponse("/member", status_code=303)
-
-
-
 
 @app.get("/member")
 def member(request: Request):
