@@ -40,7 +40,11 @@
                 {% for msg in messages %}
                 <p>{{ msg.name }}：{{ msg.content }} 
                     {% if msg.member_id == user_id and msg.id is not none %}
-                    <button class="delete-btn" data-message-id="{{ msg.id }}">❌</button>
+                    <button 
+                    class="delete-btn" 
+                    data-message-id="{{ msg.id }}"
+                    style="width: 5%; margin: 0; border: none; background-color: transparent; cursor: pointer;"
+                    >❌</button>
                     {% endif %}
                 </p>
                 {% endfor %}

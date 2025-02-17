@@ -30,19 +30,16 @@ def signup(request: Request, name: str = Form(...), username: str = Form(...), p
     db = get_db_connection()
     cursor = db.cursor(dictionary=True)
 
-    # 檢查 username 是否已存在
+    # 檢查帳號是否重複
     cursor.execute("SELECT * FROM member WHERE username = %s", (username,))
     existing_user = cursor.fetchone()
 
     if existing_user:
         db.close()
-        return templates.TemplateResponse("error.html", {
-            "request": request,
-            "message": "此帳號已重複",
-            "error_type": "signup"  # 標記錯誤類型
-        })
+        error_message = urlencode({"message": "此帳號已重複"})
+        return RedirectResponse(f"/error?{error_message}", status_code=303)
 
-    # 插入新會員資料
+    # 插入新會員
     cursor.execute("INSERT INTO member (name, username, password) VALUES (%s, %s, %s)", (name, username, password))
     db.commit()
     db.close()
@@ -55,14 +52,17 @@ def signin(request: Request, username: str = Form(...), password: str = Form(...
     db = get_db_connection()
     cursor = db.cursor(dictionary=True)
 
+    # 查詢是否有匹配的 username & password
     cursor.execute("SELECT * FROM member WHERE username = %s AND password = %s", (username, password))
     user = cursor.fetchone()
     db.close()
 
     if not user:
-        error_message = urlencode({"message": "帳號或密碼輸入錯誤"})
+        # 登入失敗，導向錯誤頁面
+        error_message = urlencode({"message": "帳號或密碼錯誤"})
         return RedirectResponse(f"/error?{error_message}", status_code=303)
 
+    # 登入成功，記錄會員資訊到 Session
     request.session["SIGNED-IN"] = True
     request.session["USER_ID"] = user["id"]
     request.session["NAME"] = user["name"]
