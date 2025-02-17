@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member System</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="outer-container">
+        <div>
+            <div class="title">歡迎光臨，請輸入帳號密碼</div>
+        </div>
+        <!-- 註冊表單 -->
+        <div class="outer-contain">
+            <div class="container">
+                <div class="inner-container">
+                    <h2>註冊帳號</h2>
+                    <form id="signupForm" action="/signup" method="post">
+                        <div class="input-group">
+                            <label for="name">姓名</label>
+                            <input type="text" name="name" id="name" placeholder="Name" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="username">帳號</label>
+                            <input type="text" name="username" id="signupUsername" placeholder="Username" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="password">密碼</label>
+                            <input type="password" name="password" id="signupPassword" placeholder="Password" required>
+                        </div>
+                        <button type="submit">註冊</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- 登入表單 -->
+        <div class="outer-contain">
+            <div class="container">
+                <div class="inner-container">
+                    <h2>登入系統</h2>
+                    <form id="signinForm" action="/signin" method="post">
+                        <div class="input-group">
+                            <label for="username">帳號</label>
+                            <input type="text" name="username" id="signinUsername" placeholder="Username" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="password">密碼</label>
+                            <input type="password" name="password" id="signinPassword" placeholder="Password" required>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="agreeCheckbox">
+                            <label for="agreeCheckbox">同意條款</label>
+                        </div>
+                        <button type="submit" id="signinButton">登入</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 註冊時檢查欄位是否為空值
+        document.getElementById("signupForm").addEventListener("submit", function(event) {
+            let name = document.getElementById("name").value.trim();
+            let username = document.getElementById("signupUsername").value.trim();
+            let password = document.getElementById("signupPassword").value.trim();
+            
+            if (name === "" || username === "" || password === "") {
+                event.preventDefault();  // 阻止表單提交
+                alert("請填寫所有欄位！");
+            }
+        });
+        document.getElementById("signinForm").addEventListener("submit", function(event) {
+            if (!document.getElementById("agreeCheckbox").checked) {
+                event.preventDefault();
+                alert("Please check the checkbox first");
+            }
+        });
+    </script>
+</body>
+</html>
