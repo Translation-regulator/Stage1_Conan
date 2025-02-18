@@ -72,15 +72,13 @@ def signin(request: Request, username: str = Form(...), password: str = Form(...
 @app.get("/member")
 def member(request: Request):
     user_id = request.session.get("USER_ID")
+    name = request.session.get("NAME")  # 直接從 Session 取得會員名稱
+    
     if not user_id:
         return RedirectResponse("/")
     
     db = get_db_connection()
     cursor = db.cursor(dictionary=True)
-
-    # 取得會員名稱
-    cursor.execute("SELECT name FROM member WHERE id = %s", (user_id,))
-    user = cursor.fetchone()
 
     # 取得所有留言
     cursor.execute("""
@@ -94,10 +92,11 @@ def member(request: Request):
 
     return templates.TemplateResponse("member.html", {
         "request": request,
-        "name": user["name"],
-        "user_id": user_id,  # 讓前端知道登入者 ID
+        "name": name,  # 直接使用 Session 內的會員名稱
+        "user_id": user_id,
         "messages": messages
     })
+
 
 
 @app.post("/createMessage")
