@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="outer-contain">
+        <div class="container">
+            <div class="inner-container">
+            <h1>⚠️ 發生錯誤</h1>
+            <p style="color: red;">{{ message }}</p>
+
+            {% if error_type == "signup" %}
+                <a href="/">回到首頁</a>
+            {% elif error_type == "login" %}
+                <a href="/">回到首頁</a>
+            {% endif %}
+            <h4>將於5秒鐘後跳轉到首頁</h4>
+            </div>          
+        </div>
+    </div>
+    <script>
+        setTimeout(function() {
+            window.location.href = "/";
+        }, 5000); // 5秒後跳回首頁
+    </script>
+</body>
+</html>
+ 
