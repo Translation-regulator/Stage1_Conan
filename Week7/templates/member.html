@@ -33,7 +33,7 @@
     <div class="outer-contain">
         <div class="container">
             <div class="inner-container">
-                <h2>更新使用者姓名</h2>
+                <h2>更新我的姓名</h2>
                 <input type="text" id="updateName" placeholder="輸入新的姓名">
                 <button type="button" id="updateButton">更新</button>
                 <div id="updateResult"></div>
@@ -115,7 +115,7 @@
                     if(data.data){
                         document.getElementById("queryResult").innerText = `姓名: ${data.data.name}, 帳號: ${data.data.username}`;
                     } else {
-                        document.getElementById("queryResult").innerText = "No Data";
+                        document.getElementById("queryResult").innerText = "查無此會員";
                     }
                 })
                 .catch(error => {
@@ -137,15 +137,15 @@
                 .then(response => response.json())
                 .then(data => {
                     if(data.ok){
-                        document.getElementById("updateResult").innerText = "Updated";
+                        document.getElementById("updateResult").innerText = "更新成功";
                         // 更新頁面上顯示的會員姓名
                         document.querySelector("h2 span").innerText = newName;
                     } else {
-                        document.getElementById("updateResult").innerText = "Failed to Update";
+                        document.getElementById("updateResult").innerText = "更新失敗";
                     }
                 })
                 .catch(error => {
-                    document.getElementById("updateResult").innerText = "Error occurred";
+                    document.getElementById("updateResult").innerText = "發生錯誤";
                     console.error("Error:", error);
                 });
         });
