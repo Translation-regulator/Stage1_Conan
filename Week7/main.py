@@ -121,7 +121,7 @@ def delete_message(request: Request, message_id: int = Form(...)):
 
 # Task 1: Member Query API 
 @app.get("/api/member")
-def api_query_member(request: Request, username: str = None):
+def api_query_member(username: str, request: Request):
     if not request.session.get("SIGNED-IN"):
         return {"data": None}
     if not username:
