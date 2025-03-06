@@ -1,0 +1,29 @@
+/* Base: 通用樣式 */
+body {
+    font-family: Arial, sans-serif;
+    color: #333;
+  }
+  
+  /* Layout: 定義結構 */
+  .layout-card {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  
+  /* Module: 定義可重用模組 */
+  .module-title {
+    font-size: 1.5rem;
+    color: #333;
+  }
+  
+  .module-content {
+    font-size: 1rem;
+    color: #666;
+  }
+  
+  /* State: 狀態樣式，可能會有不同狀態 */
+  .layout-card.is-active {
+    background-color: #f0f0f0;
+  }
+  

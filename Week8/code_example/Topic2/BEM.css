@@ -1,0 +1,24 @@
+/* Block: card */
+.card {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  
+  /* Element: card__title */
+  .card__title {
+    font-size: 1.5rem;
+    color: #333;
+  }
+  
+  /* Element: card__content */
+  .card__content {
+    font-size: 1rem;
+    color: #666;
+  }
+  
+  /* Modifier: card--highlight */
+  .card--highlight {
+    background-color: #ffeb3b;
+  }
+  

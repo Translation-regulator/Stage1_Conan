@@ -1,0 +1,19 @@
+/* 結構 - card 物件 */
+.card {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  
+  /* 外觀 - 標題樣式 */
+  .card-title {
+    font-size: 1.5rem;
+    color: #333;
+  }
+  
+  /* 外觀 - 內容樣式 */
+  .card-content {
+    font-size: 1rem;
+    color: #666;
+  }
+  

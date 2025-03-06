@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CORS 測試</title>
+</head>
+<body>
+    <h1>CORS 測試 - 失敗案例</h1>
+    <button onclick="fetchData()">發送 GET 請求</button>
+    <button onclick="postData()">發送 POST 請求</button>
+    <p id="response"></p>
+
+    <script>
+        const apiURL = "http://127.0.0.1:8000/data"; // 後端伺服器
+
+        async function fetchData() {
+            try {
+                let response = await fetch(apiURL, {
+                    method: "GET",
+                    credentials: "include" // 攜帶憑證（但 allow_origins="*" 會出錯）
+                });
+                let data = await response.json();
+                document.getElementById("response").innerText = JSON.stringify(data);
+            } catch (error) {
+                console.error("CORS 錯誤", error);
+                document.getElementById("response").innerText = "請求失敗，請查看 Console 錯誤訊息";
+            }
+        }
+
+        async function postData() {
+            try {
+                let response = await fetch(apiURL, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    credentials: "include",
+                    body: JSON.stringify({ name: "Alice" })
+                });
+                let data = await response.json();
+                document.getElementById("response").innerText = JSON.stringify(data);
+            } catch (error) {
+                console.error("CORS 錯誤", error);
+                document.getElementById("response").innerText = "請求失敗，請查看 Console 錯誤訊息";
+            }
+        }
+    </script>
+</body>
+</html>

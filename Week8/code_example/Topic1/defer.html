@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>defer</title>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>defer 等所有 HTML (DOM) 解析完成後才執行</h1>
+    <script>
+        // 目前 DOM 尚未解析完成，jQuery 為 undefined
+        console.log('jQuery =>', window['$']);
+
+        // 等待 DOM 解析完成後，jQuery 才會被定義
+        // onload 為非同步事件，當所有 HTML (DOM) 解析完成後才會觸發
+        window.onload = function() {
+            console.log('jQuery =>', window['$']);
+        };
+        
+    </script>
+</body>
+</html>
